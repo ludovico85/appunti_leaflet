@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+		<!-- bootstrap --><link rel="stylesheet" href="bootstrap-3.3.7/bootstrap-3.3.7/dist/css/bootstrap.css"><!-- bootstrap -->
+		<!-- bootstrap --><link rel="stylesheet" href="bootstrap-3.3.7/bootstrap-3.3.7/dist/css/bootstrap-grid.css"><!-- bootstrap -->
+		<!-- bootstrap --><link rel="stylesheet" href="bootstrap-3.3.7/bootstrap-3.3.7/dist/css/bootstrap-reboot.css"><!-- bootstrap -->
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+		<div = id = "esempio"
+		<p>Click on the button to toggle between showing and hiding content.</p>
+		<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo1">Simple collapsible</button>
+		<div id="demo1" class="collapse">
+		demo 1
+		</div>
+		<br>
+		<br>
+		<button type="button" class="btn btn-danger btn-lg" data-toggle="collapse" data-target="#demo2">Simple collapsible</button>
+		<div id="demo2" class="collapse">
+		demo 2
+		</div>
+		<br>
+		<br>
+		<button type="button" class="btn btn-success btn-xs" data-toggle="collapse" data-target="#demo3">Simple collapsible</button>
+		<div id="demo3" class="collapse">
+		demo 3
+		</div>
+		<br>
+		<br>
+		<button type="button" class="btn btn-warning btn-block" data-toggle="collapse" data-target="#demo4">Simple collapsible</button>
+		<div id="demo4" class="collapse">
+		demo 4
+		</div>
+		<br>
+		<br>
+		<button type="button" class="btn btn-primary active">Active Primary</button>
+		<button type="button" class="btn btn-primary disabled">Disabled Primary</button>
+		</div>
+
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/poligono_0.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script><!-- link a jquery ordine 1-->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script><!-- link a bootstrap.dumble ordine 2-->
+		<!-- link a bootstrap --><script src="bootstrap-3.3.7/bootstrap-3.3.7/dist/js/bootstrap.js"></script> <!-- link a bootstrap -->
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[41.21478324880683,14.173915045294585],[42.0646778537365,16.654405890423753]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        function setBounds() {
+        }
+        function pop_poligono_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">tipo</th>\
+                        <td>' + (feature.properties['tipo'] !== null ? Autolinker.link(String(feature.properties['tipo'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_poligono_0_0(feature) {
+            switch(String(feature.properties['tipo'])) {
+                case 'A':
+                    return {
+                pane: 'pane_poligono_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(223,151,99,1.0)',
+            }
+                    break;
+                case 'B':
+                    return {
+                pane: 'pane_poligono_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(116,232,105,1.0)',
+            }
+                    break;
+                case 'C':
+                    return {
+                pane: 'pane_poligono_0',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(20,137,220,1.0)',
+            }
+                    break;
+            }
+        }
+        map.createPane('pane_poligono_0');
+        map.getPane('pane_poligono_0').style.zIndex = 400;
+        map.getPane('pane_poligono_0').style['mix-blend-mode'] = 'normal';
+        var layer_poligono_0 = new L.geoJson(json_poligono_0, {
+            attribution: '<a href=""></a>',
+            pane: 'pane_poligono_0',
+            onEachFeature: pop_poligono_0,
+            style: style_poligono_0_0,
+        });
+        bounds_group.addLayer(layer_poligono_0);
+        map.addLayer(layer_poligono_0);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'poligono<br /><table><tr><td style="text-align: center;"><img src="legend/poligono_0_A0.png" /></td><td>A</td></tr><tr><td style="text-align: center;"><img src="legend/poligono_0_B1.png" /></td><td>B</td></tr><tr><td style="text-align: center;"><img src="legend/poligono_0_C2.png" /></td><td>C</td></tr></table>': layer_poligono_0,},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
