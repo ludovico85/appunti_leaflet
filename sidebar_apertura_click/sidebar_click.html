@@ -58,7 +58,7 @@
 
             <div class="sidebar-pane" id="profile">
                 <h1 class="sidebar-header">Profile<span class="sidebar-close"><i class="fa fa-caret-left"></i></span></h1>
-				<p id="geotext"></p>
+				<p id="geotext"> </p>
             </div>
 
             <div class="sidebar-pane" id="messages">
@@ -95,8 +95,10 @@
         function setBounds() {
         }
 		
-		// variabile per aprire la sidebar; object_id è id delle feaures nel geoJson, 'geotext' e la parte della sidebar dove far apparire il contenuto.
-		//sidebar.open('') e la tab che si deve aprire
+		/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// variabile per aprire la sidebar; OBJECTID è id delle feaures nel geoJson, 'geotext' e la parte della sidebar dove far apparire il contenuto.//
+		//sidebar.open('') e la tab che si deve aprire///////////////////////////////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////// Va insertia sempre prima della funzione onEachFeature //////////////////////////////////////////
 		var results = [];
           //open sidebar and more content when clicking button in popup
           var thisResult;
@@ -105,36 +107,28 @@
                   $("#sidebar-text").removeText();
               }
               for (var i = 0, len = results.length; i < len; i++) {
-                  if (results[i].object_id === parseInt(ID)) {
+                  if (results[i].OBJECTID === parseInt(ID)) {
                       thisResult = (results[i]);
                   }
               }
               sidebar.open('profile');
               var divToAddContent = document.getElementById('geotext');
-              divToAddContent.innerHTML = 'scrivere un titolo, se necessario aggiungere il tag h4'+'<br></br>'+'prova'+thisResult.tipo;
-              }
-		
+              divToAddContent.innerHTML = "tipo<br><b>" + thisResult.tipo + "<br> <img src =" +thisResult.Foto + " width = 100%>";
+          }
+			
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         function pop_punto_0(feature, layer) {
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['object_id'] !== null ? Autolinker.link(String(feature.properties['object_id'])) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2"><strong>tipo</strong><br />' + (feature.properties['tipo'] !== null ? Autolinker.link(String(feature.properties['tipo'])) : '') + '</td>\
-                    </tr>\
-					<tr>\
-					<td> <img src=' + feature.properties.Foto + ' width=100%/> </td>\
-					</tr>\
-					<tr>\<td><br></td></tr>\
-					<tr>\
-					<td><button type = "button" class= "btn btn-primary sidebar-open-button" ' + feature.properties.object_id + '>CLICK ON ME</button></td>\
-					</tr>\
-                </table>';
+            var popupContent = "<h4 class='custom-popup'>" + feature.properties.Nome +"</h4><img src=" + feature.properties.Foto + " width=100%/>"+ '<br></br>'+'<h4 style="text-align:center"> <button type="button" class="btn btn-primary sidebar-open-button" data = "' + feature.properties.OBJECTID + '" ' + '>Maggiori informazioni</button>';
             layer.bindPopup(popupContent, {maxHeight: 400});
+			feature.layer = layer; //aggiungere per far funazionare thisResult //opzionale//
+			results.push(feature.properties); //aggiungere per far funazionare thisResult //obbligatorio//
+			return layer; //aggiungere per far funazionare thisResult //opzionale//
         }
 		//nella tabella va aggiunta la foto; width regola la foto ma dipende anche dalla width del popup//
 		//<button type = "button" class= "btn btn-primary sidebar-open-button" </button> aggiunge un pulsante con lo stile bootstrap//
-		
+		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////		
         function style_punto_0_0(feature) {
             switch(String(feature.properties['tipo'])) {
                 case 'aereoporto':
@@ -187,7 +181,8 @@
         map.createPane('pane_punto_0');
         map.getPane('pane_punto_0').style.zIndex = 400;
         map.getPane('pane_punto_0').style['mix-blend-mode'] = 'normal';
-        var layer_punto_0 = new L.geoJson(json_punto_0, {
+        
+		var layer_punto_0 = new L.geoJson(json_punto_0, {
             attribution: '<a href=""></a>',
             pane: 'pane_punto_0',
             onEachFeature: pop_punto_0,
@@ -201,17 +196,21 @@
         });
         bounds_group.addLayer(layer_punto_0);
         map.addLayer(layer_punto_0);
-        var baseMaps = {};
-		
+        
+		//var baseMaps = {};
 		var zoomControl = L.control.zoom({position: 'bottomright'}).addTo(map); //spostare lo zoom control
 		var sidebar = L.control.sidebar('sidebar').addTo(map); //aggiunge la sidebar funzionante
 
+		//////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////
 		//document.getElementById("bringToBack").addEventListener
 		// funzione necessaria all'apertura della sidebar
 		$("div").on("click", '.sidebar-open-button', function () {
 		var ID = $(this).attr("data");
 		openSidebar(ID);
 		});
+		//////////////////////////////////////////////////////////////
+		//////////////////////////////////////////////////////////////
 		
         L.control.layers(baseMaps,{'punto<br /><table><tr><td style="text-align: center;"><img src="legend/punto_0_aereoporto0.png" /></td><td>aereoporto</td></tr><tr><td style="text-align: center;"><img src="legend/punto_0_edificio1.png" /></td><td>edificio</td></tr><tr><td style="text-align: center;"><img src="legend/punto_0_porto2.png" /></td><td>porto</td></tr></table>': layer_punto_0,},{collapsed:false}).addTo(map);
         setBounds();
