@@ -1,4 +1,4 @@
-#aprire la shelle di osgeo4w
+#aprire la shell di osgeo4w
 #spostarsi nella cartella che contienere il geotiff (my_raster) cd ed eseguire
 gdal2tiles.py -p mercator -z 4-13 my_raster.tif my_tiles
 
