@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/qgis2web.css">
+        <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+        </style>
+		<style>
+		.accordion {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+.active, .accordion:hover {
+    background-color: #ccc;
+}
+
+.accordion:after {
+    content: '\002B';
+    color: #777;
+    font-weight: bold;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2212";
+}
+
+.panel {
+    padding: 0 18px;
+    background-color: white;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+		</style>
+        <title></title>
+    </head>
+    <body>
+        <div id="map">
+        </div>
+        <script src="js/qgis2web_expressions.js"></script>
+        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.rotatedMarker.js"></script>
+        <script src="js/leaflet.pattern.js"></script>
+        <script src="js/leaflet-hash.js"></script>
+        <script src="js/Autolinker.min.js"></script>
+        <script src="js/rbush.min.js"></script>
+        <script src="js/labelgun.min.js"></script>
+        <script src="js/labels.js"></script>
+        <script src="data/Punticasuali_0.js"></script>
+        <script>
+        var map = L.map('map', {
+            zoomControl:true, maxZoom:28, minZoom:1
+        }).fitBounds([[41.441841022,13.0595420409],[42.1731661772,15.0881929987]]);
+        var hash = new L.Hash(map);
+        map.attributionControl.addAttribution('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a>');
+        var bounds_group = new L.featureGroup([]);
+        var basemap0 = L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
+            maxZoom: 28
+        });
+        basemap0.addTo(map);
+        function setBounds() {
+        }
+        function pop_Punticasuali_0(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['genere'] !== null ? Autolinker.link(String(feature.properties['genere'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['specie'] !== null ? Autolinker.link(String(feature.properties['specie'])) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        };
+		
+		//funzione per tabella modificata per genere
+		function pop_Punticasuali_genere(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? Autolinker.link(String(feature.properties['id'])) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['genere'] !== null ? Autolinker.link(String(feature.properties['genere'])) : '') + '</td>\
+                    </tr>\
+                    </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        };
+
+        function style_Punticasuali_0_0() {
+            return {
+                pane: 'pane_Punticasuali_0',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(47,182,67,1.0)',
+            }
+        }
+		
+		function style_Punticasuali_0_1() {
+            return {
+                pane: 'pane_Punticasuali_0',
+                radius: 4.0,
+                opacity: 1,
+                color: 'rgba(0,0,0,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(25,25,67,1.0)',
+            }
+        }
+		
+        map.createPane('pane_Punticasuali_0');
+        map.getPane('pane_Punticasuali_0').style.zIndex = 400;
+        map.getPane('pane_Punticasuali_0').style['mix-blend-mode'] = 'normal';
+        
+		var layer_Punticasuali_0 = new L.geoJson(json_Punticasuali_0, {
+            //separa layer sulla proprietà del geojson
+			filter: function (feature, layer) {
+			return (feature.properties.specie === "specie1")
+			},
+			attribution: '<a href=""></a>',
+            pane: 'pane_Punticasuali_0',
+            onEachFeature: pop_Punticasuali_0,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Punticasuali_0_0(feature));
+            },
+        });
+		
+		var layer_Punticasuali_1 = new L.geoJson(json_Punticasuali_0, {
+            //separa layer sulla proprietà del geojson
+			filter: function (feature, layer) {
+			return (feature.properties.specie === "specie2")
+			},
+			attribution: '<a href=""></a>',
+            pane: 'pane_Punticasuali_0',
+            onEachFeature: pop_Punticasuali_0,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Punticasuali_0_1(feature));
+            },
+        }).addTo(map);
+		
+		var layer_Punticasuali_2 = new L.geoJson(json_Punticasuali_0, {
+            //separa layer sulla proprietà del geojson
+			filter: function (feature, layer) {
+			return (feature.properties.genere === "genere1")
+			},
+			attribution: '<a href=""></a>',
+            pane: 'pane_Punticasuali_0',
+            onEachFeature: pop_Punticasuali_genere,
+            pointToLayer: function (feature, latlng) {
+                var context = {
+                    feature: feature,
+                    variables: {}
+                };
+                return L.circleMarker(latlng, style_Punticasuali_0_1(feature));
+            },
+        }).addTo(map);
+		
+		
+		
+		
+        bounds_group.addLayer(layer_Punticasuali_0);
+        map.addLayer(layer_Punticasuali_0);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/Punticasuali_0.png" /> Punti casuali': layer_Punticasuali_0,layer_Punticasuali_1,layer_Punticasuali_2},{collapsed:false}).addTo(map);
+        setBounds();
+        </script>
+    </body>
+</html>
