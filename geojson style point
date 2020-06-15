@@ -19,8 +19,10 @@ L.geoJSON(someGeojsonFeature, {
 	}
 }).addTo(map);
 
-##############################################################################################################
-#se si vuole utilizzare diverse combinazioni basate sulle proprietà del goejson bisogna prima creare la funzione
+#################################################################################################################
+#se si vuole utilizzare diverse combinazioni basate sulle proprietà del geojson bisogna prima creare la funzione#
+#################################################################################################################
+
 function styleFunction(feature, latlng){
 		switch(feature.properties["scientific_name"]){
 			case "Canis aureus":
