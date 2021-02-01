@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<head>
+	<meta charset='UTF-8'>
+	
+	<title>Dynamic Dropdown</title>
+	
+	<link rel='stylesheet' href='css/style.css'>
+	
+<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous">
+</script>
+<script src="jsondata/data2.js"></script>
+
+<script>
+//var esempio = [
+//{
+//	"beverages": "Coffee,Coke",
+//	"snacks": "Chips,Cookies"
+//}];
+</script>
+
+	<script>
+		$(function() {
+			$("#text-one").change(function() {
+				$("#text-two").load("textdata/" + $(this).val() + ".txt");
+			});
+			$("#json-one").change(function() {
+			
+				var $dropdown = $(this);
+			
+				$.getJSON(esempio, function(data) {
+				
+					var key = $dropdown.val();
+					var vals = [];
+										
+					switch(key) {
+						case 'beverages':
+							vals = data.beverages.split(",");
+							break;
+						case 'snacks':
+							vals = data.snacks.split(",");
+							break;
+						case 'base':
+							vals = ['Please choose from above'];
+					}
+					
+					var $jsontwo = $("#json-two");
+					$jsontwo.empty();
+					$.each(vals, function(index, value) {
+						$jsontwo.append("<option>" + value + "</option>");
+					});
+			
+				});
+			});
+
+		});
+	</script>
+</head>
+
+<body>
+
+	<div id="page-wrap">
+	
+		<h1>Pulls from text files</h1>
+
+		<select id="text-one">
+			<option selected value="base">Please Select</option>
+			<option value="beverages">Beverages</option>
+			<option value="snacks">Snacks</option>
+		</select>
+		
+		<br />
+		
+		<select id="text-two">
+			<option>Please choose from above</option>
+		</select>
+		
+		<h1>Pulls from JSON</h1>
+
+		<select id="json-one">
+			<option selected value="base">Please Select</option>
+			<option value="beverages">Beverages</option>
+			<option value="snacks">Snacks</option>
+		</select>
+	
+		<br />
+	
+		<select id="json-two">
+			<option>Please choose from above</option>
+		</select>
+	
+	</div>
+	
+</body>
+
+</html>
