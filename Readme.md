@@ -1,4 +1,4 @@
-#A series of notes on webmapping with [Leaflet](https://leafletjs.com/) with live examples.
+# A series of notes on webmapping with [Leaflet](https://leafletjs.com/) with live examples.
 
 Basic maps include:
 * Zoom Control
