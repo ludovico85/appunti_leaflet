@@ -1,7 +1,3 @@
+Live examples
 
-
-Esempi live:
-
-* [Basic example](http://turbo87.github.io/leaflet-sidebar/examples/)
-* [mapbox.js listing-markers example](http://turbo87.github.io/leaflet-sidebar/examples/listing-markers.html)
-* [Example with 2 sidebars](http://turbo87.github.io/leaflet-sidebar/examples/two-sidebars.html)
+* [simple marker](http://ludovico85.github.io/appunti_leaflet/simple_marker)
