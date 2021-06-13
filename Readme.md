@@ -12,3 +12,4 @@ Live examples
 * [Simple geojson](http://ludovico85.github.io/appunti_leaflet/simple_geojson)
 * [Simple geojson polygon type](http://ludovico85.github.io/appunti_leaflet/simple_geojson_polygons)
 * [Categorized symbols](http://ludovico85.github.io/appunti_leaflet/categorized_symbols)
+* [Graduated symbols](http://ludovico85.github.io/appunti_leaflet/graduated_symbols)

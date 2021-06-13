@@ -16,31 +16,68 @@ var mapbox = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y
 		  tileSize: 512,
 		  zoomOffset: -1}).addTo(mymap); // add scale bar
 
-function getColor(d) {
-	return d = "Nord-ovest" ? '#800026':
-	'#FFEDA0';
-}
 
-function mystyle(feature) {
-	return {
-		fillColor: getColor(feature.properties.DEN_RIP),
+// create a function with if statement to creare categories
+function categorical_legend(feature) {
+	if (feature.properties['DEN_RIP'] === "Nord-ovest") {
+		return {
+			opacity: 1,
+			color: '#8cb369',
+			weight: 2.0,
+			fill: true,
+			fillOpacity: 0.7,
+			fillColor: '#8cb369',
+		}
 	};
-}
+	if (feature.properties['DEN_RIP'] === "Nord-est") {
+		return {
+			opacity: 1,
+			color: '#f4e285',
+			weight: 2.0,
+			fill: true,
+			fillOpacity: 0.7,
+			fillColor: '#f4e285',
+		}
+	};
+	if (feature.properties['DEN_RIP'] === "Centro") {
+		return {
+			opacity: 1,
+			color: '#f4a259',
+			weight: 2.0,
+			fill: true,
+			fillOpacity: 0.7,
+			fillColor: '#f4a259',
+		}
+	};
+	if (feature.properties['DEN_RIP'] === "Sud") {
+		return {
+			opacity: 1,
+			color: '#5b8e7d',
+			weight: 2.0,
+			fill: true,
+			fillOpacity: 0.7,
+			fillColor: '#5b8e7d',
+		}
+	};
+	if (feature.properties['DEN_RIP'] === "Isole") {
+		return {
+			opacity: 1,
+			color: '#bc4b51',
+			weight: 2.0,
+			fill: true,
+			fillOpacity: 0.7,
+			fillColor: '#bc4b51'
+		}
+	};
+};
 
-//var mystyle = {
-//	opacity: 1,
-//	color: '#ffffff',
-//	dashArray: '2,2',
-//	lineJoin: 'round',
-//	lineCap: 'butt',
-//	fillColor: '#FF5A5F',
-//	weight: 2,
-//	fill: true,
-//	fillOpacity: 0.7
-// };
+var legend = L.control({position: 'bottomright'});
 
+
+
+// load geojson and apply the style
 var regions = new L.geoJson(regions, {
-	style: mystyle,
+	style: categorical_legend,
 	onEachFeature: function (feature, layer) {
-		layer.bindPopup('<table><tbody><tr><th scope="row"><td>Nome: '+feature.properties.DEN_REG+'</td></th></tr></tbody><tr><th scope="row"></th></tr></tbody>')}
+		layer.bindPopup('<table><tbody><tr><th scope="row"><td>Zona geografica: '+feature.properties.DEN_RIP+'</td></th></tr></tbody><tr><th scope="row"></th></tr></tbody>')}
 }).addTo(mymap);
