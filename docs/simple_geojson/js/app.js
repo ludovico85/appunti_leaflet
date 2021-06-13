@@ -16,8 +16,6 @@ var mapbox = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y
 		  tileSize: 512,
 		  zoomOffset: -1}).addTo(mymap); // add scale bar
 
-//var marker = L.marker([41.82,14.3]).addTo(mymap)
-
 var mountains = new L.geoJson(mountains, {
 	onEachFeature: function (feature, layer) {
 		layer.bindPopup('<table><tbody><tr><th scope="row"><td>Nome: '+feature.properties.nome+'</td></th></tr></tbody><tr><th scope="row"></th></tr></tbody>')}
