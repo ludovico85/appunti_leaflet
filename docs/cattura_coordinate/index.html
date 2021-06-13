@@ -1,0 +1,172 @@
+<html>
+<head>
+	<title>Cattura coordinate</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="css/leaflet.css" />
+	<link rel="stylesheet" href="css/custom.css" />
+	<script src="js/leaflet.js"></script>
+	<script src="js/proj4.js"></script>
+	<script src="js/proj4leaflet.js"></script>
+	<script src="js/L.LatLng.UTM.js"></script>
+	<script src="data/majella.js"></script>
+	<script src="data/comuni.js"></script>
+	<style type="text/css">
+	 	html, body, #map{
+	 		height: 100%;
+	 		padding: 0;
+	 		margin: 0%;
+	 	}
+	</style>
+
+</head>
+<body>
+<div id="logo">
+<img src ="images/logo-parco-majella.png"></img>
+</div>
+<div id="map"></div>
+<script>
+//libreria proj4 per caricare i dati del catasto che vengono distributi con altro ESPG//
+var ETRS89width= 18.99-5.93;
+var startResolution = ETRS89width/1024;
+var grid_resolution = new Array(22);
+for (var i = 0; i < 22; ++i) {
+	grid_resolution[i] = startResolution / Math.pow(2, i);
+}
+var crs_6706 = new L.Proj.CRS('EPSG:6706',
+	'+proj=longlat +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +no_defs',
+	{
+		resolutions: grid_resolution,
+		origin: [0, 0],
+		bounds: L.bounds([5.93, 34.76], [18.99, 47.1])
+	}),
+
+map = new L.Map('map', {
+   minZoom: 10,
+   maxZoom: 21,
+   maxBounds: [[42.36346963, 13.66812682], [41.71737987, 14.52049824]],
+   fullscreenControl:true
+	}).setView([42.06066371, 14.06901384], 10);
+
+	
+var wmsLayer_1 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: ['province', 'CP.CadastralZoning'],
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+	attribution: '© ' + '<a href="https://creativecommons.org/licenses/by-nc-nd/2.0/it/">Agenzia delle Entrate</a>',
+});
+
+var google = L.tileLayer('https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+	attribution: '&copy;Immagini ©2020 CNES / Airbus,Landsat / Copernicus,Maxar Technologies,Dati cartografici ©2020 '
+	}).addTo(map);
+		
+var OSM_layer =L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+	maxZoom: 21,
+	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a>'
+	});
+
+var wmsLayer_2 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: ['CP.CadastralParcel'],
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+});
+
+var wmsLayer_3 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: 'fabbricati',
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+});
+
+var wmsLayer_4 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: 'strade',
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+});
+
+var wmsLayer_5 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: 'acque',
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+});
+
+var wmsLayer_6 = L.tileLayer.wms('https://wms.cartografia.agenziaentrate.gov.it/inspire/wms/ows01.php', {
+    layers: 'vestizioni',
+    crs: crs_6706,
+	format: 'image/png',
+    maxZoom: 21,
+    transparent: true,
+});	
+			
+		
+var baseMaps = {
+	"Google": google,
+	"OpenStreetMap": OSM_layer
+	};
+
+		/*/map.on('click', 
+		function(e){
+		var coord = String(marker.getLatLng().utm().toString({decimals: 0, format: '{x} {y} {zone} {hemi}'})).split(" ");
+		var lng = coord.slice(0);
+		var lat = coord.slice(0);
+		L.marker(e.latlng, {draggable:'true'}).addTo(map);
+		marker.bindPopup("EST(X): " + lng[0] + "<br><br>NORD(Y): " + lat[1]);
+		});/*/
+var myStyle1 = {
+    "color": "#3388FF",
+	"fillColor": "rgba(255, 255, 255, 0.0)",
+    "weight": 5,
+    "opacity": 1
+};
+		
+var majella = new L.geoJson(majella, {
+    style: myStyle1
+	});
+    map.addLayer(majella);
+
+var myStyle2 = {
+    "color": "#ff7800",
+	"fillColor": "rgba(255, 255, 255, 0.0)",
+    "weight": 3,
+    "opacity": 1
+};
+
+var comuni = new L.geoJson(comuni, {
+	style: myStyle2,
+    onEachFeature: function (feature, comuni) {
+    comuni.bindPopup(feature.properties.comune);
+    }
+	});
+    map.addLayer(comuni);
+
+//var greenIcon = new LeafIcon({iconUrl: 'leaf-green.png'});
+
+var myMarker = L.marker([42.06066371, 14.06901384], {title: "Sposta il cursore per catturare le coordinate", draggable: true})
+	.addTo(map)
+	.on('dragend', function() {
+		var coord = String(myMarker.getLatLng().utm().toString({decimals: 0, format: '{x} {y} {zone} {hemi}'})).split(" ");
+		console.log(coord);
+		var lng = coord.slice(0);
+		console.log(lng);
+		var lat = coord.slice(0);
+		console.log(lat);
+		myMarker.bindPopup("<b>UTMWGS8433N</b><br><hr>"+"EST(X): " + lng[0] + "<br><br>NORD(Y): " + lat[1]).openPopup();
+		})
+	/*/.on('dblclick', function(e) {
+           map.removeLayer(myMarker);
+        })/*/;
+	
+var control1 = L.control.layers(baseMaps,{'Fogli':wmsLayer_1, 'Particelle':wmsLayer_2, 'Fabbricati':wmsLayer_3, 'Strade':wmsLayer_4, 'Acque':wmsLayer_5, 'Vestizioni':wmsLayer_6, 'Comuni':comuni, 'Limite Parco':majella},{collapsed: false}).addTo(map);
+
+	</script>
+
+</body>
+</html>
