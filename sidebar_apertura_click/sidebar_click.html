@@ -115,16 +115,17 @@
               var divToAddContent = document.getElementById('geotext');
               divToAddContent.innerHTML = "tipo<br><b>" + thisResult.tipo + "<br> <img src =" +thisResult.Foto + " width = 100%>";
           }
-			
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         function pop_punto_0(feature, layer) {
-            var popupContent = "<h4 class='custom-popup'>" + feature.properties.Nome +"</h4><img src=" + feature.properties.Foto + " width=100%/>"+ '<br></br>'+'<h4 style="text-align:center"> <button type="button" class="btn btn-primary sidebar-open-button" data = "' + feature.properties.OBJECTID + '" ' + '>Maggiori informazioni</button>';
+            var popupContent = "<h4 class='custom-popup'>" + feature.properties.Nome +"</h4><img src=" + feature.properties.Foto + " width=100%/>"+ '<br></br>'+'<h4 style="text-align:center"> <button type="button" class="btn btn-primary sidebar-open-button" data = ' + feature.properties.OBJECTID + ' ' + '>Maggiori informazioni</button>';
             layer.bindPopup(popupContent, {maxHeight: 400});
 			feature.layer = layer; //aggiungere per far funazionare thisResult //opzionale//
-			results.push(feature.properties); //aggiungere per far funazionare thisResult //obbligatorio//
+			x = results.push(feature.properties);
 			return layer; //aggiungere per far funazionare thisResult //opzionale//
-        }
+        };
+
+	 console.log(thisResult)
 		//nella tabella va aggiunta la foto; width regola la foto ma dipende anche dalla width del popup//
 		//<button type = "button" class= "btn btn-primary sidebar-open-button" </button> aggiunge un pulsante con lo stile bootstrap//
 		//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -204,14 +205,14 @@
 		//////////////////////////////////////////////////////////////
 		//////////////////////////////////////////////////////////////
 		//document.getElementById("bringToBack").addEventListener
-		// funzione necessaria all'apertura della sidebar
+		// funzione necessaria all'apertura della sidebar		
 		$("div").on("click", '.sidebar-open-button', function () {
-		var ID = $(this).attr("data");
+		var ID = $(this).attr('data');
 		openSidebar(ID);
+		x = ID
 		});
+	console.log(x)
 		//////////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////////
-		
         L.control.layers(baseMaps,{'punto<br /><table><tr><td style="text-align: center;"><img src="legend/punto_0_aereoporto0.png" /></td><td>aereoporto</td></tr><tr><td style="text-align: center;"><img src="legend/punto_0_edificio1.png" /></td><td>edificio</td></tr><tr><td style="text-align: center;"><img src="legend/punto_0_porto2.png" /></td><td>porto</td></tr></table>': layer_punto_0,},{collapsed:false}).addTo(map);
         setBounds();
         </script>
