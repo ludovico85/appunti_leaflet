@@ -1,5 +1,7 @@
 # A series of notes on webmapping with [Leaflet](https://leafletjs.com/) with live examples.
 
+![GitHub last commit](https://img.shields.io/github/last-commit/ludovico85/appunti_leaflet?color=green&style=plastic)
+
 Basic maps include:
 * Zoom Control
 * Scale bar
